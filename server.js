@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
       <video id="video" controls autoplay></video>
       <script>
         const video = document.getElementById('video');
-        const ws = new WebSocket('ws://localhost:9999');
+        const ws = new WebSocket('ws://192.168.1.26:9999');
 
         ws.onmessage = function(event) {
           const blob = new Blob([event.data], { type: 'video/mp4' });
