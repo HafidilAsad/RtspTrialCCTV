@@ -17,9 +17,8 @@ app.get('/stream', (req, res) => {
 
   // Use FFmpeg to transcode the RTSP stream
   ffmpeg(RTSP_URL)
-    .addOption('-re') // Read input at native frame rate
-    .addOption('-c:v libx264') // Use H.264 codec
-    .addOption('-f mp4') // Output format
+    .inputOptions(['-re']) // Input option before output
+    .outputOptions(['-c:v libx264', '-f mp4']) // Output options
     .on('start', commandLine => {
       console.log('FFmpeg process started:', commandLine);
     })
