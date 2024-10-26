@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTSP Stream</title>
+    <script src="https://cdn.jsdelivr.net/npm/video.js/dist/video.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h1>RTSP Stream</h1>
+    <video id="video" class="video-js vjs-default-skin" controls autoplay width="640" height="480"></video>
+    
+    <script>
+        const video = document.getElementById('video');
+        const ws = new WebSocket('ws://localhost:9999');
+
+        ws.onmessage = (event) => {
+            const blob = new Blob([event.data], { type: 'video/mp2t' });
+            const url = URL.createObjectURL(blob);
+            video.src = url;
+        };
+    </script>
+</body>
+</html>

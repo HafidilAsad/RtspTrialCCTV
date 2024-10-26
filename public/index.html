@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTSP Stream</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        video {
+            width: 80%;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <video id="video" controls autoplay></video>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const video = document.getElementById('video');
+
+        // Create a MediaSource for the video element
+        const mediaSource = new MediaSource();
+        video.src = URL.createObjectURL(mediaSource);
+
+        mediaSource.addEventListener('sourceopen', () => {
+            const sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.64001E, mp4a.40.2"');
+
+            socket.on('data', (data) => {
+                sourceBuffer.appendBuffer(data);
+            });
+        });
+    </script>
+</body>
+</html>
