@@ -3,7 +3,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3700;
+const PORT = 3000;
 
 // Use CORS middleware
 app.use(cors());
@@ -18,13 +18,15 @@ app.get('/stream', (req, res) => {
   // Use FFmpeg to transcode the RTSP stream
   ffmpeg(RTSP_URL)
     .inputOptions(['-re']) // Input option before output
-    .outputOptions(['-c:v libx264', '-f mp4']) // Output options
+    .outputOptions(['-c:v libx264', '-f mp4', '-preset ultrafast']) // Output options
     .on('start', commandLine => {
       console.log('FFmpeg process started:', commandLine);
     })
     .on('error', (err) => {
       console.error('Error:', err);
-      res.sendStatus(500);
+      if (!res.headersSent) {
+        res.sendStatus(500);
+      }
     })
     .pipe(res, { end: true });
 });
