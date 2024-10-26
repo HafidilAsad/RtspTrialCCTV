@@ -1,8 +1,12 @@
 const express = require('express');
 const ffmpeg = require('fluent-ffmpeg');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3700;
+
+// Use CORS middleware
+app.use(cors());
 
 // RTSP Stream URL
 const RTSP_URL = 'rtsp://admin:1234@192.168.1.27:5543/051c6519288cc2d8b07f026902be8c96/live/channel0';
