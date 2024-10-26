@@ -18,12 +18,14 @@ app.get('/stream', (req, res) => {
   // Use FFmpeg to transcode the RTSP stream
   ffmpeg(RTSP_URL)
     .inputOptions(['-re']) // Input option before output
-    .outputOptions(['-c:v libx264', '-f mp4', '-preset ultrafast']) // Output options
+    .outputOptions(['-c:v libx264', '-f mp4']) // Output options (you can change to '-f mpegts' if needed)
     .on('start', commandLine => {
       console.log('FFmpeg process started:', commandLine);
     })
-    .on('error', (err) => {
+    .on('error', (err, stdout, stderr) => {
       console.error('Error:', err);
+      console.error('FFmpeg stdout:', stdout);
+      console.error('FFmpeg stderr:', stderr);
       if (!res.headersSent) {
         res.sendStatus(500);
       }
