@@ -27,12 +27,23 @@ const stream = new Stream({
 app.get('/', (req, res) => {
   res.send(`
     <html>
+      <head>
+        <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+        <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
+      </head>
       <body>
         <h1>RTSP Stream</h1>
-        <video id="video" width="640" height="480" controls autoplay>
-          <source src="ws://192.168.1.26:9999" type="video/mp4">
+        <video id="video" class="video-js vjs-default-skin" controls autoplay width="640" height="480">
+          <source src="ws://192.168.1.26:9999" type="application/x-mpegURL">
           Your browser does not support the video tag.
         </video>
+        <script>
+          var player = videojs('video');
+          player.src({
+            src: 'ws://192.168.1.26:9999',
+            type: 'application/x-mpegURL'
+          });
+        </script>
       </body>
     </html>
   `);
