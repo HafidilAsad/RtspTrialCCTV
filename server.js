@@ -2,7 +2,7 @@ const express = require('express');
 const Stream = require('node-rtsp-stream');
 
 const app = express();
-const PORT = 3003;
+const PORT = 3700;
 
 // RTSP Stream URL
 const rtspUrl = 'rtsp://admin:1234@192.168.1.27:5543/051c6519288cc2d8b07f026902be8c96/live/channel0';
